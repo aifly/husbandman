@@ -1,0 +1,150 @@
+/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {
+    background-color: #fff;
+    border-color: #bf1616;
+    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);
+}*/
+.lt-full {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.zmiti-text-overflow {
+  overflow: hidden;
+  white-space: nowrap;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  -webkit-text-overflow: ellipsis;
+}
+
+.zmiti-play {
+  width: .8rem;
+  height: .8rem;
+  border-radius: 50%;
+  position: fixed;
+  z-index: 1000;
+  right: .5rem;
+  top: .5rem;
+}
+
+.zmiti-play.rotate {
+  -webkit-animation: rotate 5s linear infinite;
+  animation: rotate 5s linear infinite;
+}
+
+.symbin-left {
+  float: left !important;
+}
+
+.symbin-right {
+  float: right !important;
+}
+
+@-webkit-keyframes rotate {
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.symbin-login-ui .symbin-login-form {
+  width: 60vw;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  min-width: 1000px;
+  max-width: 1300px;
+  -webkit-transform: translate3d(-50%, -50%, 0);
+  transform: translate3d(-50%, -50%, 0);
+}
+
+.symbin-login-ui .symbin-login-form .symbin-login-C {
+  position: absolute;
+  width: 33%;
+  height: 70%;
+  left: 6%;
+  bottom: 30px;
+}
+
+.symbin-login-ui .symbin-login-form .symbin-login-C .symbin-login-error {
+  height: 80px;
+}
+
+.symbin-login-ui .symbin-login-form .symbin-login-C .symbin-login-form-item {
+  text-align: center;
+  border-bottom: 1px solid  #ccc;
+  width: 100%;
+  margin: 30px auto;
+  height: 38px;
+  line-height: 38px;
+}
+
+.symbin-login-ui .symbin-login-form .symbin-login-C .symbin-login-form-item span img {
+  width: 20px;
+}
+
+.symbin-login-ui .symbin-login-form .symbin-login-C .symbin-login-form-item input {
+  font-size: 18px;
+  padding-left: 4%;
+  height: 36px;
+  border: none;
+  width: 88%;
+  outline: none;
+  background: transparent;
+}
+
+.symbin-login-ui .symbin-login-form .symbin-login-C .symbin-forget-pass {
+  width: 140px;
+  text-align: center;
+  margin: 30px auto;
+}
+
+.symbin-login-ui .symbin-login-form .symbin-login-C .symbin-forget-pass span {
+  cursor: pointer;
+}
+
+.symbin-login-ui .symbin-login-form .symbin-login-C .symbin-forget-pass span:hover {
+  color: #f00;
+  text-decoration: underline;
+}
+
+.symbin-login-ui .symbin-login-form .symbin-login-C .symbin-login-btn {
+  width: 100%;
+  height: 34px;
+  line-height: 34px;
+  cursor: pointer;
+  border-radius: 30px;
+  color: #fff;
+  background: #4be293;
+  text-align: center;
+  margin: 20px auto;
+}
+
+.symbin-login-ui .symbin-copyright {
+  position: absolute;
+  width: 100%;
+  height: 100px;
+  line-height: 100px;
+  left: 0;
+  bottom: 0;
+  z-index: 1200;
+  text-align: center;
+}
+
+@keyframes scale {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: .7;
+  }
+  100% {
+    -webkit-transform-origin: top;
+    transform-origin: top;
+    -webkit-transform: scale(3);
+    transform: scale(3);
+    opacity: 0;
+  }
+}
