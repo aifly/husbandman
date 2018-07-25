@@ -8,7 +8,9 @@ var imgs = {
 	cloud1 :"./assets/images/cloud1.png",
 	open :"./assets/images/open.png",
 	loginBg:"./assets/images/login-bg.jpg",
-	loginFormBg:'./assets/images/login-form-bg.png'
+	loginFormBg:'./assets/images/login-form-bg.png',
+	mobileIco:'./assets/images/mobile-ico.png',
+	emailIco: './assets/images/email-ico.png'
 
 }
 window.config = {
