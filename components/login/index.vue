@@ -25,11 +25,11 @@
 						</div>
 						<div class="symbin-login-form-item">
 							<span><img :src="imgs.emailIco" alt=""></span><input type="text" v-model="vilatecode"/>
-							<span class="symbin-getcode">获取验证码</span>
+							<span class="symbin-getcode" @click="getCode">获取验证码</span>
 						</div>
 					</TabPane>
 				</Tabs>
-				<div class="symbin-login-btn">
+				<div class="symbin-login-btn" @click="login()">
 					登录
 				</div>
 
@@ -50,7 +50,7 @@
 				</div>
 				<div class="symbin-reg-item">
 					<input type="text" v-model="regCode" placeholder="请输入验证码">
-					<span class="symbin-getcode">
+					<span class="symbin-getcode" @click="getRegCode">
 						获取验证码
 					</span>
 				</div>
@@ -63,7 +63,7 @@
 				<div class="symbin-agreement">
 					<input type="checkbox" v-model="agree" id="agree" /><label for="agree">我已阅读并接受<span>《云耕农夫注册协议》</span></label>
 				</div>
-				<div class="symbin-reg-btn">
+				<div class="symbin-reg-btn" @click='register'>
 					注册
 				</div>
 
@@ -118,26 +118,118 @@
  					this.showError = false;
  				},2000)
 			},
+			register(){
+				var s = this;
+				symbinUtil.ajax({
+					url:window.config.baseUrl+'/farmer/regist_farmer/',
+					data:{
+						usermobile:s.regMobile,
+						verifycode:s.regCode,
+						userpwd:s.regPassword
+					},
+					success(data){
+						console.log(data);
+					}
+				})
+			},
+			getRegCode(){
+				if(this.isSend){
+					return;
+				}
+				if (!this.regMobile || !this.isPoneAvailable(this.regMobile)) {
+					this.$Message.error('请输入正确的手机号');
+					return;
+				}
+				var {regMobile} = this;
+				this.isSend = true;
+				var t = setInterval(()=>{
+					this.seconds--;
+					if(this.seconds<=0){
+						clearInterval(t);
+						this.isSend = false;
+						this.seconds = 60;
+					}
+				},1000);
+				 
+				$.ajax({
+					url:window.config.baseUrl+'/user/send_mobilecode/',
+					type:'post',
+					isNeedLogin:false,
+					data:{
+						setmobile:regMobile,
+						usertype:2,//用户注册类型：1, 注册地主,2: 注册农夫
+						smstype:1 //短信类型：1,注册；2,登陆；
+					},
+					success(data){
+						console.log(data);
+					}
+				}) 
+			},
+			getCode(usertype=2,smstype=1) {
+
+				if(this.isSend){
+					return;
+				}
+				if (!this.mobile || !this.isPoneAvailable()) {
+					this.$Message.error('请输入正确的手机号');
+					return;
+				}
+				var {mobile} = this;
+				this.isSend = true;
+				var t = setInterval(()=>{
+					this.seconds--;
+					if(this.seconds<=0){
+						clearInterval(t);
+						this.isSend = false;
+						this.seconds = 60;
+					}
+				},1000);
+				 
+				$.ajax({
+					url:window.config.baseUrl+'/user/send_mobilecode/',
+					type:'post',
+					isNeedLogin:false,
+					data:{
+						setmobile:mobile,
+						usertype,//用户注册类型：1, 注册地主,2: 注册农夫
+						smstype //短信类型：1,注册；2,登陆；
+					},
+					success(data){
+						console.log(data);
+					}
+				}) 
+			},
+			isPoneAvailable(type = this.mobile) {
+				var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+				if (!myreg.test(type)) {
+					return false;
+				} else {
+					return true;
+				}
+			},
 			login(){
 				var _this = this;
 
-				if(!this.username){
+				/* if(!this.username){
 					this.toastError();
  					return;
 				}
 				if(!this.password){
 					this.toastError('密码不能为空');
  					return;
-				}
+				} */
 				symbinUtil.ajax({
-					url:window.config.baseUrl+'/admin/adminlogin',
+					url:window.config.baseUrl+'/farmer/login/',
 					data:{
-						adminusername:_this.username,
-						adminpwd:_this.password
+						usermobile:_this.mobile,
+						verifycode:_this.vilatecode,
+						usertype:2
 					},
-					fn(data){
+					success(data){
+						console.log(data);
 						if(data.getret === 0){
 							var param = data;
+							return;
 							delete param.getret;
 							delete param.getmsg;
 							symbinUtil.clearCookie('login');
@@ -158,6 +250,7 @@
 		},
 		mounted(){
 
+			window.s = this;
  			 
 
  			
