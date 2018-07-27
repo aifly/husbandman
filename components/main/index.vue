@@ -100,11 +100,11 @@
 		components:{
 		},
         beforeCreate(){
-            this.validateData = sysbinVerification.validate(this);
+            //this.validateData = sysbinVerification.validate(this);
 
         },
         watch:{
-            $route(to){
+           /*  $route(to){
                 switch(to.name){
                     case 'rolepanel':
                         this.menus = this.defaultMenu;
@@ -115,7 +115,7 @@
                     break;
                 }
                
-            }
+            } */
         },
 		mounted(){
            ///this.menus = this.defaultMenu.concat([]);
@@ -137,7 +137,6 @@
             if(this.$route.name === 'login'){
                 return;
             }
-
             var obserable = Vue.obserable;
             this.loadMenu({
                 status:1,
