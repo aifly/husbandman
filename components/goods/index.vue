@@ -1,72 +1,78 @@
 <template>
-	<div class="symbin-goods-ui">
-	
-		<div class="symbin-goods-title">
-	
-			<Row>
-	
-				<Col span="6">
-	
-				<h5>商品管理</h5>
-	
-				</Col>
-	
-				<Col span="18">
-	
-				<div class="text-right">
-	
-					<Button type="primary" @click="open">新增</Button>
-	
-				</div>
-	
-				</Col>
-	
-			</Row>
-	
+	<div class="symbin-goods-ui lt-full">
+		<div class="symbin-goods-list">
+			<h2>添加商品</h2>
+			<ul>
+				<li class="symbin-goodsclass-item" v-for='(goodsclass,i) in goodsList' :key="i">
+					<div>
+						{{goodsclass.goodsclassname}}
+					</div>
+					<span>
+						
+					</span>
+					<ol >
+						<li @click='getCurrentGoods(goods)' class="symbin-goods-item" v-for="(goods,k) in goodsclass.list" :key="k">
+							<div :class="{'active':currentGoodsId === goods.goodsid}">
+								{{goods.goodsname}}
+							</div>
+						</li>
+					</ol>
+				</li>
+			</ul>
 		</div>
+		<div class="symbin-goods-detail">
+			<section>
+				<div>
+					<header>
+						添加商品
+					</header>
+					<div class='symbin-goods-content'>
+						<div>
+							{{formItem.goodsdesc}}
+						</div>
+						<div>
+							 
+						</div>
+					</div>
+				</div>
+			</section>
+			<section>
+				<Button type="primary" @click='addGoods'>添加商品</Button>
+			</section>
+		</div>
+		<div class="symbin-mygoods-list">
+			<h2>我的商品</h2>
+			<ul>
+				<li v-for="(goods,i) in myGoodsList" :key="i">
+					<div>
+						<img :src="goods.imagepath" alt="">
+					</div>
+					<div>
+						<div>{{goods.goodsname}}</div>
+						<div>单价 <span>{{'￥'+goods.price}}</span></div>
+						<div>数量 : {{goods.goodsnumber}}</div>
+					</div>
+					<div>
+						<Button type="error" icon='ios-trash' size='small'>删除</Button>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<Modal v-model="modal1" title="添加商品">
 	
-		<div class="top20"></div>
+			<div class="">
 	
-		<Table :columns="columns1" :data="listData"></Table>
-	
-		<Modal v-model="modal1" title="商品管理">
-	
-			<div class="symbin-goods-addinfo">
-	
-				<Form ref="formItem" :model="formItem" :rules="ruleValidate" :label-width="100">
-	
-					<FormItem label="商品名称" prop="goodsname">
-	
-						<Input v-model="formItem.goodsname" placeholder="商品分类名称"></Input>
-	
+				<Form ref="formItem" :model="formItem" :label-width="100">
+					<FormItem label="数量：" prop="goodsclassname">
+						 <InputNumber style="width:100%" :max="9999" :min="1" v-model="formItem.goodsnumber"></InputNumber>
 					</FormItem>
-					<FormItem label="商品分类" prop="sort">
-						<Cascader  :data="goodsClassData" v-model='formItem.goodsClass' change-on-select></Cascader>
+					<FormItem label="单价：" prop="sort">
+						<Input v-model="formItem.goodsprice" placeholder="单价"></Input>
 					</FormItem>
-					<FormItem label="商品简介" prop="goodsdesc">
-						<Input v-model="formItem.goodsdesc" placeholder="商品简介"></Input>
+					<FormItem label="特色描述：" prop="sort">
+						<Input type="textarea" v-model="formItem.goodsfeature" placeholder="特色描述"></Input>
 					</FormItem>
-					<FormItem label="商品库存" prop="goodsnumber">
-						<Input v-model="formItem.goodsnumber" placeholder="商品库存"></Input>
-					</FormItem>
-					<FormItem label="商品图片" prop="imagepath">
-						<Row type='flex'>
-							<Col>
-								<img :src="formItem.imagepath" alt="">
-							</Col>
-							<Col>
-								<Button icon='upload'>上传</Button>
-								<input type="file" ref='file' @change='upload' name="">
-							</Col>
-						</Row>
-					</FormItem>
-					<FormItem label="商品价格" prop="goodsprice">
-						<Input v-model="formItem.goodsprice" placeholder="商品价格"></Input>
-					</FormItem>
-					<FormItem label="商品生产日期" prop="goodsprice">
-						<DatePicker format="yyyy-MM-dd" type="date" v-model="formItem.goodscreatetime" :value="formItem.createtime" placeholder="Select date" style="width:100%;"></DatePicker>
-					</FormItem>
-					
 				</Form>
 	
 			</div>
@@ -75,12 +81,11 @@
 	
 				<Button type="text" @click="cancel('formItem')">取消</Button>
 	
-				<Button type="primary" @click="asyncOK('formItem')">确定</Button>
+				<Button type="primary" @click="asyncOK">确定</Button>
 	
 			</div>
 	
 		</Modal>
-	
 	</div>
 </template>
 <script>
@@ -103,170 +108,23 @@
 		data() {
 	
 			return {
-	
+				
 				modal1: true,
 				currentIndex:'',
-				
-				goodsClassData:[
-					
-				],
-	
-	
+				goodsList:[],
+				myGoodsList:[],
+				currentGoodsId:-1,
 				formItem: {
 					sort:1,
 					goodsname: '', 
 					goodsClass:[],
 					goodsdesc:'',
-					goodsnumber:'',
+					goodsnumber:1,
 					goodscreatetime:'',
 					createtime:'',
 					imagepath:""
 
-				},
-	
-				columns1: [{
-	
-						title: '编号',
-	
-						key: 'key'
-	
-					}, 
-					{
-	
-						title: '商品名称',
-	
-						key: 'goodsname'
-	
-					}, 
-					{
-	
-						title: '时间',
-	
-						key: 'goodscreatetime'
-	
-					},
-	
-					{
-	
-						title: '操作',
-	
-						key: 'action',
-	
-						align: 'left',
-	
-						width: 130,
-	
-						render: (h, params) => {
-	
-							return h('div', [
-	
-								h('Button', {
-	
-									props: {
-	
-										type: 'default',
-	
-										size: 'small'
-	
-									},
-	
-									style: {
-	
-										marginRight: '5px'
-	
-									},
-	
-									on: {
-	
-										click: () => {
-	
-											this.show(params.index);
-	
-										}
-	
-									}
-	
-								}, '修改'),
-	
-								h('Button', {
-	
-									props: {
-	
-										type: 'error',
-	
-										size: 'small'
-	
-									},
-	
-									style: {
-	
-										marginRight: '5px'
-	
-									},
-	
-									on: {
-	
-										click: () => {
-	
-											this.remove(params.row);
-	
-										}
-	
-									}
-	
-								}, '删除')
-	
-							]);
-	
-						}
-	
-					}
-	
-				],
-
-				listData: [],
-	
-				ruleValidate: {
-	
-					title: [{
-	
-						required: true,
-	
-						message: '广告标题不能为空',
-	
-						trigger: 'blur'
-	
-					}],
-	
-					adlink: [{
-	
-							required: true,
-	
-							message: '广告网址不能为空',
-	
-							trigger: 'blur'
-	
-						},
-	
-						{
-	
-							type: 'url',
-	
-							message: '网址格式不正确',
-	
-							trigger: 'blur',
-	
-							function() {
-	
-								console.log('test');
-	
-							}
-	
-						}
-	
-					]
-	
-				}
+				}, 
 	
 			}
 	
@@ -285,379 +143,86 @@
 		},
 	
 		methods: {
-			upload(){
 
-
-				
-				var formData = new FormData();
-	  		    var s = this;
-
-	  					
-			      formData.append('setupfile', this.$refs['file'].files[0]);
-			      formData.append('uploadtype', 0);
-			     
-			      $.ajax({
-			        type: "POST",
-			        contentType: false,
-			        processData: false,
-			        url:window.config.baseUrl+'/share/upload_file/',
-			        data: formData,
-			        error(e){
-			        	
-			          	setTimeout(()=>{
-			          		s.detectionError = '';
-			          	},2000)
-			          	
-			        },
-			        success(data){
-			        	 console.log(data);
-				        if (data.getret === 0) {
-				          var url = data.getfileurl[0].datainfourl;
-				          s.formItem.imagepath = url;
-				          s.formItem.uploadfileid = data.uploadfileid;
-				        }else{
-				        	
-				        	
-				        }
-			        }
-			      });
+			getCurrentGoods(goods){
+				this.currentGoodsId = goods.goodsid;
+				this.formItem = goods;
+				console.log(this.formItem)
 			},
-			getGoodsClassList(){
-				var s = this;
-				
-				symbinUtil.ajax({
-					url:window.config.baseUrl + '/admin/getgoodsclasslist/',
-					validate: s.validateData,
-					success(data){
-						if(data.getret === 0){
-							
-							data.list.forEach((item,i)=>{
-								var obj = {
-									value:item.goodsclassid,
-									label:item.goodsclassname
-								};
-								 
 
-								s.goodsClassData.push(obj)
-							})
-						}
-						console.log(data);
-					}
-				})
+			addGoods(){
+				this.modal1 = true;
 			},
-	
-			add() { //增加
+			 
+			getBaseGoodsList() { //获取数据
 	
 				var s = this;
-	
-				var formparams = {
-					goodsname: s.formItem.goodsname,
-					goodsdesc: s.formItem.goodsdesc,
-					goodsprice: s.formItem.goodsprice,
-					goodsnumber: s.formItem.goodsnumber,
-					imagepath: s.formItem.imagepath,
-					goodsclassid: s.formItem.goodsClass[0],
-
-					goodscreatetime:s.formItem.goodscreatetime.format('yyyy-MM-dd')
-					
-				}
-				console.log(formparams);
-				symbinUtil.ajax({
-	
-					url: window.config.baseUrl + "/admin/addgoods",
-	
-					type: 'post',
-	
-					validate: s.validateData,
-	
-					data: formparams,
-	
-					fn(data) {
-	
-						if (data.getret === 0) {
-	
-							s.$Message.success(data.getmsg);
-	
-							s.modal1 = false;
-	
-							s.getListData(); //刷新列表
-	
-						} else {
-	
-							s.$Message.error({
-	
-								content: data.getmsg,
-	
-								duration: 10
-	
-							});
-	
-						}
-	
-					}
-	
-				})
-	
-	
-	
-			},
-	
-			open() {
-	
-				var s = this;
-	
-				s.modal1 = true;
-	
-				s.formItem = {
-	
-					goodsname: '',
-	
-					date: ''
-	
-				}
-	
-				s.currentIndex = '';
-	
-			},
-	
-			asyncOK(name) {
-	
-				var s = this;
-
-				this.$refs[name].validate((valid) => {
-				
-					if (valid) {
-	
-						//this.add();                        
-					
-						if (s.currentIndex != '') {
-	
-							this.edit(s.currentIndex);
-	
-						} else {
-	
-							this.add(); //保存新增
-	
-						}
-	
-						this.modal1 = false;
-	
-	
-	
-					} else {
-	
-						this.$Message.error('提交失败!');
-	
-						this.modal1 = true;
-	
-	
-	
-					}
-	
-				})
-	
-			},
-	
-			cancel(name) {
-	
-				this.modal1 = false;
-	
-				this.$refs[name].resetFields();
-	
-			},
-	
-			show(index) {
-	
-				var s = this;
-	
-				s.modal1 = true;
-
-	
-				s.currentIndex = s.listData[index].goodsid;
-				
-				s.formItem = {
-					imagepath: s.listData[index].imagepath,
-					goodsid: s.listData[index].goodsid,
-					goodsname: s.listData[index].goodsname,
-					goodsClass:[s.listData[index].goodsclassid],
-					goodsdesc:s.listData[index].goodsdesc,
-					goodsnumber:s.listData[index].goodsnumber,
-					goodsprice:s.listData[index].goodsprice,
-					uploadfileid:s.listData[index].uploadfileid,
-					goodscreatetime:s.listData[index].goodscreatetime,
-				}
-	
-			},
-	
-			change(status) {
-	
-				this.$Message.info('开关状态：' + status);
-	
-			},
-	
-			getListData(rak, fn) { //获取数据
-	
-				var s = this;
-
-				
-	
 				symbinUtil.ajax({
 	
 					url: window.config.baseUrl + "/admin/getgoodslist",
+					url:'/components/goods/data.json',
 	
 					type: 'post',
-	
-					validate: s.validateData,
-	
+					type:'get',
 					data: {
 						admin: s.validateData.adminusername,
 						admintoken: s.validateData.admintoken
 					},
-	
 					fn(data) {
 						console.log(data);
-						if (data.getret === 0) {
-	
-	
-							data.list.forEach((item, i) => {
-	
-								item.sort = i + 1;
-	
-							})
-							data.list.forEach((item,i)=>{
-								item.key = i+1;
-							})
-						
-							s.listData = data.list;
-
-	
-						} else {
-	
-							s.$Message.error({
-	
-								content: data.getmsg,
-	
-								duration: 10
-	
-							});
-	
-							if (data.getret === 1300) {
-	
-								window.location.hash = '/login/'
-	
-							}
-	
-						}
-	
-	
-	
+						s.goodsList = data.list;
 					}
-	
 				})
 	
 			},
-	
-			edit(goodsid) { //编辑
-	
+			asyncOK(){
 				var s = this;
-
-				var formparams = {
-	
-					goodsid: goodsid,
-					goodsname: s.formItem.goodsname,
-					sort:s.formItem.sort,
-					goodsprice:s.formItem.goodsprice,
-					goodsnumber:s.formItem.goodsnumber,
-					goodsdesc:s.formItem.goodsdesc,
-					imagepath:s.formItem.imagepath,
-
-				}
-
-				//console.log(formparams);
-	
+				console.log({
+						goodsid:s.formItem.goodsid,
+						price:s.formItem.goodsprice,
+						goodsnumber:s.formItem.goodsnumber,
+						goodsfeature:s.formItem.goodsfeature
+					})
 				symbinUtil.ajax({
-	
-					url: window.config.baseUrl + "/admin/editgoods",
-					validate: s.validateData,
-					data: formparams,
-					fn(data) {
-						console.log(data,'edit');
-						if (data.getret === 0) {
-	
-							s.$Message.success(data.getmsg);
-	
-							s.getListData();
-	
-						} else {
-	
-							s.$Message.error({
-	
-								content: data.getmsg,
-	
-								duration: 5
-	
-							});
-	
-						}
-	
-					}
-	
-				})
-	
-			}, 
-			remove(goods) { //删除
-	
-				var goodsids = goods.goodsid;
-	
-				var s = this;
-	
-				symbinUtil.ajax({
-	
-					url: window.config.baseUrl + "/admin/delgoods",
-	
-					type: 'post',
-	
-					validate: s.validateData,
-	
-					data: {
-						goodsids: goodsids,
-						deltype: 1,
+					url:window.config.baseUrl+'/farmer/shelfgoods/',
+					data:{
+						goodsid:s.formItem.goodsid,
+						price:s.formItem.goodsprice,
+						goodsnumber:s.formItem.goodsnumber,
+						goodsfeature:s.formItem.goodsfeature
 					},
-	
-					fn(data) {
-	
-						if (data.getret === 0) {
-	
-							s.$Message.success(data.getmsg);
-							s.getListData();
-	
-						} else {
-	
-							s.$Message.error({
-	
-								content: data.getmsg,
-	
-								duration: 5
-	
-							});
-	
-						}
-	
+					success(data){
+						console.log(data);
+						s.$Message[data.getret === 0 ?'success':"error"](data.getmsg);
 					}
-	
 				})
-	
 			},
+			cancel(){
+				this.modal1 = false;
+			},
+			getMyGoodsList(){
+				var s = this;
+				symbinUtil.ajax({
+					url:window.config.baseUrl+'/farmer/getmygoodslist/',
+					data:{
+						status:1
+					},
+					success(data){
+						if(data.getret === 0){
+							console.log(data.list);
+							s.myGoodsList = data.list;
+						}
+					}
+				})
+			}
 	
 	 
 	
 		},
 	
 		mounted() { //页面加载完成后显示
-	
-			this.getListData(); //获取列表
-			this.getGoodsClassList();
-	
+			this.getBaseGoodsList();
+			this.getMyGoodsList();
 		},
 	
 	}

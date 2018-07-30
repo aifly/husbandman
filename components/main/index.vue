@@ -18,8 +18,6 @@
                         </Menu>
                     </Col>
                 </Row>
-               
-                 
             </Header>
             <Layout>
                 <Sider hide-trigger class='symbin-main-menu' :style='{height:(viewH - 64)+"px"}' >
@@ -94,7 +92,9 @@
                         ]
                     }
                 ],
-                menus:[]
+                menus:[
+                    
+                ]
 			}
 		},
 		components:{
@@ -138,45 +138,55 @@
                 return;
             }
             var obserable = Vue.obserable;
+
+            
             this.loadMenu({
                 status:1,
             },(data)=>{
-                
-                var arr = [];
 
-                data.list.filter(d=>{
-                    return d.showwhere === 1;
-                }).forEach((dt)=>{
+                data.filter((dt,i)=>{
+                    return dt.showWhere === 1
+                }).map((dt,i)=>{
                     this.topMenu.push({
-                        name:dt.menuname,
-                        link:dt.menuurl
-                    })
-                });
-                
-                data.list.filter((d)=>{return d.showwhere === 2}).forEach((menu,i)=>{
-                    var children = menu.children;
-                    var childArr = [];
-                   if(children){
-                       children.forEach(child=>{
-                           childArr.push({
-                               name:child.menuname,
-                               link:child.menuurl+''+(child.children?child.menuid:'')
-                           })
-                       })
-                   }
-                    arr.push({
-                        name:menu.menuname,
-                        subMenu:childArr
+                        name:dt.name,
+                        link:dt.link
                     })
                 })
 
-                this.defaultLeftMenu = arr;
-                if(this.$route.name !== 'rolepanel'){
-                    obserable.trigger({
-                        type:'fillMenu',
-                        data:arr
-                    })
-                }
+                this.menus = [
+                    {
+                        name:'商品管理',
+                        subMenu:[
+                            {
+                                name:'我的商品',
+                                link:'/mygoods/'
+                            },{
+                                name:'添加商品',
+                                link:'/addgoods/'
+                            },
+                            
+                        ]
+                    },{
+                        name:'订单管理',
+                        subMenu:[
+                            {
+                                name:'我的订单',
+                                link:'/myorder'
+                            }
+                        ]
+                    },{
+                        name:'我的客户',
+                        subMenu:[
+                            {
+                                name:'我的客户',
+                                link:'/mylandlorduser/'
+                            }
+                        ]
+                    }
+                ]
+
+
+               
 
                 
             }); 
@@ -190,28 +200,24 @@
            
             loadMenu(option,fn){
                 var s = this;
-                symbinUtil.ajax({
-                    url:window.config.baseUrl+"/admin/getmenulist",
-                    validate:s.validateData,
-                    data:{
-                        status:option.status,
+                var data = [
+                    {  
+                        name:'控制台',
+                        link:'/console/',
+                        showWhere:1,
                     },
-                    fn(data){
-                        
-                        if(data.getret===0){
+                    {
+                        name:'控制面板',
+                        link:'/role/',
+                        showWhere:1,
+                    },
+                    {
+                        name:'',
 
-                            fn && fn(data);
-                        }
-                        else{
-                            s.$Message.error({
-                                content:data.getmsg,
-                                duration: 10
-                            });
-                             
-                        }
-                        
                     }
-                })
+                ]
+                fn && fn(data);
+                 
             }
 		}
 	}

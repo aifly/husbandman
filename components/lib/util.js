@@ -1,5 +1,5 @@
 import $ from 'jquery'
-
+import sysbinVerification from './verification';
 Date.prototype.format = function (fmt) {
 	var o = {
 		"M+": this.getMonth() + 1, //月份 
@@ -36,10 +36,12 @@ var symbinUtil = {
 	},
 	ajax(option){
 		var opt = option.data || {};
-	
+		if (!option.validate){
+			option.validate = sysbinVerification.validate(this)
+		}
 		if(option.validate){
-			opt.adminusername = option.validate.adminusername;
-			opt.admintoken = option.validate.admintoken;
+			opt.usermobile = option.validate.usermobile;
+			opt.access_token = option.validate.access_token;
 		}
 		$.ajax({
 			url:option.url,

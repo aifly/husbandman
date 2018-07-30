@@ -8,14 +8,16 @@
   height: 100%;
   position: absolute;
   left: 0;
-  top: 0; }
+  top: 0;
+}
 
 .zmiti-text-overflow {
   overflow: hidden;
   white-space: nowrap;
   word-break: break-all;
   text-overflow: ellipsis;
-  -webkit-text-overflow: ellipsis; }
+  -webkit-text-overflow: ellipsis;
+}
 
 .zmiti-play {
   width: .8rem;
@@ -24,61 +26,231 @@
   position: fixed;
   z-index: 1000;
   right: .5rem;
-  top: .5rem; }
-  .zmiti-play.rotate {
-    -webkit-animation: rotate 5s linear infinite;
-    animation: rotate 5s linear infinite; }
+  top: .5rem;
+}
+
+.zmiti-play.rotate {
+  -webkit-animation: rotate 5s linear infinite;
+  animation: rotate 5s linear infinite;
+}
 
 .symbin-left {
-  float: left !important; }
+  float: left !important;
+}
 
 .symbin-right {
-  float: right !important; }
+  float: right !important;
+}
 
 @-webkit-keyframes rotate {
   to {
     -webkit-transform: rotate(360deg);
-    transform: rotate(360deg); } }
-.symbin-goods-ui {
-  padding: 0 10px;
-  background-color: #ffffff; }
-  .symbin-goods-ui .symbin-goods-title {
-    padding: 16px 0px;
-    min-height: 70px;
-    border-bottom: 1px solid #ddd; }
-    .symbin-goods-ui .symbin-goods-title h5 {
-      margin: 8px;
-      border-left: 2px solid #88B7E0;
-      text-indent: 8px;
-      display: inline-block;
-      vertical-align: top;
-      font-size: 14px;
-      font-weight: normal; }
-  .symbin-goods-ui .text-right {
-    text-align: right; }
+    transform: rotate(360deg);
+  }
+}
 
-.symbin-goods-addinfo textarea.ivu-input {
-  resize: none; }
-.symbin-goods-addinfo input[type='file'] {
+.symbin-goods-ui {
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row;
+  background: #fff;
+}
+
+.symbin-goods-ui > div {
+  height: 100%;
+}
+
+.symbin-goods-ui .symbin-goods-list, .symbin-goods-ui .symbin-mygoods-list {
+  width: 250px;
+}
+
+.symbin-goods-ui .symbin-mygoods-list > h2 {
+  font-size: 14px;
+  height: 70px;
+  line-height: 70px;
+  text-indent: 2em;
+}
+
+.symbin-goods-ui .symbin-mygoods-list li {
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row;
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+}
+
+.symbin-goods-ui .symbin-mygoods-list li > div:nth-of-type(1) {
+  width: 50px;
+}
+
+.symbin-goods-ui .symbin-mygoods-list li > div:nth-of-type(2) {
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: column;
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+}
+
+.symbin-goods-ui .symbin-mygoods-list li > div:nth-of-type(2) > div:nth-of-type(1) {
+  font-weight: bold;
+}
+
+.symbin-goods-ui .symbin-goods-list h2 {
+  font-size: 14px;
+  width: 100%;
+  height: 70px;
+  line-height: 100px;
+  text-indent: 2em;
+  position: relative;
+}
+
+.symbin-goods-ui .symbin-goods-list h2:before {
+  content: '';
+  position: absolute;
+  width: 5px;
+  top: 68%;
+  height: 5px;
+  left: 1em;
+  border-radius: 50%;
+  background: #46c85d;
+}
+
+.symbin-goods-ui .symbin-goods-list .symbin-goodsclass-item,
+.symbin-goods-ui .symbin-goods-list .symbin-goods-item {
+  position: relative;
+  cursor: pointer;
+  border-top: 1px solid #ccc;
+}
+
+.symbin-goods-ui .symbin-goods-list .symbin-goodsclass-item span,
+.symbin-goods-ui .symbin-goods-list .symbin-goods-item span {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 20px;
+  height: 20px;
+  z-index: 10;
+  border: 1px solid #d3d2d2;
+  border-radius: 50%;
+}
+
+.symbin-goods-ui .symbin-goods-list .symbin-goodsclass-item span:before, .symbin-goods-ui .symbin-goods-list .symbin-goodsclass-item span:after,
+.symbin-goods-ui .symbin-goods-list .symbin-goods-item span:before,
+.symbin-goods-ui .symbin-goods-list .symbin-goods-item span:after {
+  content: '';
+  position: absolute;
+  width: 80%;
+  height: 1px;
+  background: #d3d2d2;
+  top: 50%;
+  left: 10%;
+  -webkit-transform: scale(1, 1.2);
+  transform: scale(1, 1.2);
+}
+
+.symbin-goods-ui .symbin-goods-list .symbin-goodsclass-item span:after,
+.symbin-goods-ui .symbin-goods-list .symbin-goods-item span:after {
+  display: none;
+  height: 80%;
+  width: 1px;
+  left: 50%;
+  top: 10%;
+  -webkit-transform: scale(1.2, 1);
+  transform: scale(1.2, 1);
+}
+
+.symbin-goods-ui .symbin-goods-list .symbin-goodsclass-item span.open:after,
+.symbin-goods-ui .symbin-goods-list .symbin-goods-item span.open:after {
+  display: block;
+}
+
+.symbin-goods-ui .symbin-goods-list .symbin-goodsclass-item > div,
+.symbin-goods-ui .symbin-goods-list .symbin-goods-item > div {
+  height: 40px;
+  line-height: 40px;
+  font-weight: bold;
+  text-indent: 4em;
+  background: #f6f6f6;
+}
+
+.symbin-goods-ui .symbin-goods-list .symbin-goods-item {
+  border: none;
+}
+
+.symbin-goods-ui .symbin-goods-list .symbin-goods-item > div {
+  text-indent: 5em;
+  font-weight: normal;
+  background: transparent;
+}
+
+.symbin-goods-ui .symbin-goods-list .symbin-goods-item > div.active {
+  background: rgba(72, 202, 95, 0.25);
+}
+
+.symbin-goods-ui .symbin-goods-detail {
+  flex-grow: 1;
+  background: #f6f6f6;
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: column;
+}
+
+.symbin-goods-ui .symbin-goods-detail > section:nth-of-type(1) {
+  flex-grow: 1;
+  -webit-flex-grow: 1;
+  padding: 10px;
+  height: 80%;
+}
+
+.symbin-goods-ui .symbin-goods-detail > section:nth-of-type(1) > div {
+  background: #fff;
+  border-radius: 6px;
+  margin: 0 atuo;
+  height: 100%;
+  overflow: hidden;
+}
+
+.symbin-goods-ui .symbin-goods-detail > section:nth-of-type(1) > div > header {
+  height: 50px;
+  line-height: 50px;
+  text-indent: 1em;
+  position: relative;
+  font-size: 14px;
+  background: #f9f9f9;
+}
+
+.symbin-goods-ui .symbin-goods-detail > section:nth-of-type(1) > div > header:before {
+  width: 4px;
+  background: #46c85d;
+  height: 100%;
   position: absolute;
   left: 0;
   top: 0;
-  opacity: 0;
-  cursor: pointer; }
-.symbin-goods-addinfo .ivu-input-wrapper {
-  width: 90%; }
-.symbin-goods-addinfo .ivu-col-span-15 .ivu-input-wrapper {
-  width: 100%; }
-.symbin-goods-addinfo .symbin-upload-C {
-  position: relative;
-  margin-left: 8px; }
-  .symbin-goods-addinfo .symbin-upload-C > input[type='file'] {
-    position: absolute;
-    height: 100%;
-    left: 0;
-    top: 0;
-    opacity: 0;
-    cursor: pointer;
-    z-index: 19; }
+  content: '';
+  border-bottom-left-radius: 6px;
+}
 
-/*# sourceMappingURL=index.css.map */
+.symbin-goods-ui .symbin-goods-detail > section:nth-of-type(1) > div .symbin-goods-content {
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: column;
+  padding: 10px;
+  height: 93%;
+}
+
+.symbin-goods-ui .symbin-goods-detail > section:nth-of-type(1) > div .symbin-goods-content > div:nth-of-type(1) {
+  background: #ebebeb;
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
+  padding: 16px;
+}
+
+.symbin-goods-ui .symbin-goods-detail > section:nth-of-type(2) {
+  height: 100px;
+  background: #fff;
+  border-left: 2px solid #f6f6f6;
+  border-right: 2px solid #f6f6f6;
+  box-sizing: border-box;
+  text-align: center;
+  line-height: 100px;
+}

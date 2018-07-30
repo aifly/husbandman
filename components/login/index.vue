@@ -284,6 +284,7 @@
 						params.usermobile = _this.mobile
 						break;
 				}
+				var  p1= params;
 				this.showLoading = true;
 				symbinUtil.ajax({
 					url:window.config.baseUrl+'/farmer/login/',
@@ -296,11 +297,14 @@
 						_this.showLoading = false;
 						if(data.getret === 0){
 							var param = data;
-							return;
 							delete param.getret;
 							delete param.getmsg;
+						
+							param.usermobile = p1.usermobile
+						
 							symbinUtil.clearCookie('login');
 							symbinUtil.setCookie('login',JSON.stringify(param),1);
+							
 							window.location.hash = '/console/';
 							_this.$Message.success('登录成功~')
 							_this.isLogined = true;

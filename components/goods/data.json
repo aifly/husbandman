@@ -1,0 +1,36 @@
+{
+    "getret":0,
+    "getmsg":"",
+    "list":[
+        {
+            "goodsclassid":"1",
+            "goodsclassname":"母鸡",
+            "list":[
+                {
+                    "goodsname":"鸡",
+                    "goodsid":"1",
+                    "goodsdesc":"简介1123",
+                    "goodscontent":"",
+                    "goodsnumber":12,
+                    "goodsprice":12,
+                    "imagepath": "https://api.symbin.cn/uploads/other/20180526/3eaf6689a715f6c03d8f8de933eec56c.png"
+                }
+            ]
+        },
+        {
+            "goodsclassid": "2",
+            "goodsclassname": "鸡苗",
+            "list": [
+                {
+                    "goodsname": "三黄鸡",
+                    "goodsid": "4",
+                    "goodsdesc":"简介1232",
+                    "goodscontent":"",
+                    "goodsnumber":12,
+                    "goodsprice": 12,
+                    "imagepath": "https://api.symbin.cn/uploads/other/20180526/3eaf6689a715f6c03d8f8de933eec56c.png"
+                }
+            ]
+        }
+    ]
+}

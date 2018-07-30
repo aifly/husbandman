@@ -1,64 +1,203 @@
 ﻿@import "../css/base.scss";
 
 .symbin-goods-ui {
-    padding: 0 10px;
-    background-color: #ffffff;
+    $baseColor:#46c85d;
+    @include displayFlex(row);
+    background: #fff;
+    
+    &>div{
+        height: 100%;
+    }
+    .symbin-goods-list,.symbin-mygoods-list{
+        width: 250px;
+    }
 
-    .symbin-goods-title {
-        padding: 16px 0px;
-        min-height: 70px;
-        border-bottom: 1px solid #ddd;
+    .symbin-mygoods-list{
+        &>h2{
+            font-size:14px;
+            height: 70px;
+            line-height: 70px;
+            text-indent: 2em;
 
-        h5 {
-            margin: 8px;
-            border-left: 2px solid #88B7E0;
-            text-indent: 8px;
-            display: inline-block;
-            vertical-align: top;
-            font-size: 14px;
-            font-weight: normal;
+        }
+
+        li{
+            @include displayFlex(row);
+            -webkit-justify-content:space-around;
+            justify-content:space-around;
+            &>div{
+                &:nth-of-type(1){
+                    width: 50px;
+                    //height: 80px;
+                }
+                &:nth-of-type(2){
+                    @include displayFlex(column);
+                    -webkit-justify-content:space-around;
+                    justify-content:space-around;
+
+                    &>div{
+                        &:nth-of-type(1){
+                            font-weight: bold;
+                        }
+                    }
+                }
+                &:nth-of-type(3){}
+            }
         }
     }
 
-    .text-right {
-        text-align: right;
-    }
-}
+    .symbin-goods-list{
+        h2{
+            //font-weight: normal;
+            font-size:14px;
+            width: 100%;
+            height: 70px;
+            line-height: 100px;
+            text-indent: 2em;
+            @include pos(r);
+            &:before{
+                content:'';
+                @include pos(a);
+                width: 5px;
+                top: 68%;
+                height:5px;
+                left: 1em;
+                @include br();
+                background: $baseColor;
+            }
+        }
 
-.symbin-goods-addinfo {
-    textarea.ivu-input {
-        resize: none;
-    }
-    input[type='file']{
-        @include pos(a);
-        left: 0;
-        top: 0;
-        opacity:0;
-        cursor: pointer;
-    }
-    .ivu-input-wrapper {
-        width: 90%;
-	}	
-	
-	.ivu-col-span-15{
-		.ivu-input-wrapper {
-			width: 100%;
-		}	
-	}
-
-    .symbin-upload-C {
-		@include pos(r);
-		margin-left: 8px;
-
-        & > input[type='file'] {
-            @include pos(a);
-			height: 100%;
-			
-            left: 0;
-            top: 0;
-            opacity: 0;
+        .symbin-goodsclass-item,
+        .symbin-goods-item {
+            @include pos(r);
             cursor: pointer;
-            z-index: 19;
+            border-top: 1px solid #ccc;
+            span{
+                @include pos(a);
+                right:10px;
+                top: 10px;
+                width: 20px;
+                height: 20px;
+                
+                z-index: 10;
+                border:1px solid #d3d2d2;
+
+                @include br();
+
+                &:before,&:after{
+                    content:'';
+                    @include pos(a);
+                    width: 80%;
+                    height: 1px;
+                    background:#d3d2d2;
+                    top: 50%;
+                    left: 10%;
+                    @include transform(scale(1,1.2))
+                }
+
+                &:after{
+                    display:none;
+                    height: 80%;
+                    width: 1px;
+                    left: 50%;
+                    top: 10%;
+                    @include transform(scale(1.2, 1))
+                }
+                &.open{
+                    &:after{
+                        display: block;
+                    }
+                }
+                
+            }
+            &>div{
+                height: 40px;
+                line-height: 40px;
+                font-weight: bold;
+                text-indent: 4em;
+                background: #f6f6f6;
+            }
+        }
+        .symbin-goods-item{
+            border:none;
+            &>div{
+                text-indent:5em;
+                font-weight: normal;
+                background: transparent;
+                &.active{
+                    background:rgba(72,202,95,.25);
+                }
+            }
         }
     }
+
+    .symbin-goods-detail{
+        flex-grow: 1;
+        background:#f6f6f6;
+        @include displayFlex(column);
+        &>section{
+            
+            &:nth-of-type(1){
+                flex-grow: 1;
+                -webit-flex-grow:1;
+                padding:10px;
+                height: 80%;
+                &>div{
+                    background:#fff;
+                    @include br(6px);
+                    margin: 0 atuo;
+                    height: 100%;
+                    overflow: hidden;
+                    &>header{
+                        height: 50px;
+                        line-height: 50px;
+                        text-indent: 1em;
+                        @include pos(r);
+                        font-size:14px;
+                        background: #f9f9f9;
+                        &:before{
+                            width:4px;
+                            background:$baseColor;
+                            height: 100%;
+                            @include pos(a);
+                            left: 0;
+                            top: 0;
+                            content:'';
+                            border-bottom-left-radius: 6px;
+                        }
+                    }
+
+                    .symbin-goods-content{
+                        @include displayFlex(column);
+                        padding: 10px;
+                        height: 93%;
+                        &>div{
+                            //border:1px solid red;
+                            &:nth-of-type(1){
+                                background:#ebebeb;
+                                -webkit-flex-grow:1;
+                                flex-grow:1;
+                                padding: 16px;
+                            }
+                          
+                        }
+                    }
+                }
+            }
+            &:nth-of-type(2){
+                height: 100px;
+                background:#fff;
+                border-left: 2px solid #f6f6f6;
+                border-right: 2px solid #f6f6f6;
+                box-sizing: border-box;
+                text-align: center;
+                line-height: 100px;
+                
+
+            }
+
+        }
+    }
+
+    
 }

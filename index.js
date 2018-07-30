@@ -50,8 +50,8 @@ const router = new VueRouter({
     { path: '/console/', name: 'console', component: Console1, props: true },
 	  { path: '/breed/', name: 'breed', component: Hatchery, props: true },
 	  {
-	  	path: '/goods/',
-	  	name: 'goods',
+	  	path: '/addgoods/',
+	  	name: 'addgoods',
 	  	component: Goods,
 	  	props: true
 	  },
