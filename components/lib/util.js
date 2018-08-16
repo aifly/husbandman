@@ -37,7 +37,7 @@ var symbinUtil = {
 	ajax(option){
 		var opt = option.data || {};
 		if (!option.validate){
-			option.validate = sysbinVerification.validate(this)
+			option.validate = sysbinVerification.validate(opt._this)
 		}
 		if(option.validate){
 			opt.usermobile = option.validate.usermobile;

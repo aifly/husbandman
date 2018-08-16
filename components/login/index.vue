@@ -281,7 +281,9 @@
 						}
 						params.verifycode = _this.vilatecode
 						params.logintype = 1;//1，短信登陆，2：密码登陆
-						params.usermobile = _this.mobile
+						params.usermobile = _this.mobile;
+						params._this = _this;
+						params.validate = _this.validate;
 						break;
 				}
 				var  p1= params;
@@ -322,7 +324,6 @@
 		mounted(){
 
 			window.s = this;
- 			 
 
  			
 		}
