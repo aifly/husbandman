@@ -36,12 +36,14 @@ var symbinUtil = {
 	},
 	ajax(option){
 		var opt = option.data || {};
-		if (!option.validate){
-			option.validate = sysbinVerification.validate(opt._this)
-		}
-		if(option.validate){
-			opt.usermobile = option.validate.usermobile;
-			opt.access_token = option.validate.access_token;
+		if(!option.isLogin){
+			if (!option.validate){
+				option.validate = sysbinVerification.validate(opt._this)
+			}
+			if(option.validate){
+				opt.usermobile = option.validate.usermobile;
+				opt.access_token = option.validate.access_token;
+			}
 		}
 		$.ajax({
 			url:option.url,

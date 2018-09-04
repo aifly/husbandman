@@ -290,6 +290,7 @@
 				this.showLoading = true;
 				symbinUtil.ajax({
 					url:window.config.baseUrl+'/farmer/login/',
+					isLogin:true,
 					data:params,
 					error(){
 						_this.showLoading = false;
