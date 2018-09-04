@@ -78,6 +78,9 @@
 
 .symbin-login-ui .symbin-login-form .symbin-login-C .symbin-login-error {
   height: 80px;
+  color: #f00;
+  position: relative;
+  top: 30px;
 }
 
 .symbin-login-ui .symbin-login-form .symbin-login-C .symbin-login-form-item {

@@ -6,7 +6,7 @@
 				 <h2>智慧休闲农业方案提供商</h2>
 			 </div>
 			 <div class="symbin-login-C">
-				<div class="symbin-login-error"></div>
+				<div class="symbin-login-error">{{errorMsg}}</div>
 
 				<Tabs value="loginType" v-model="loginType">
 					<TabPane label="账号登录" name="0">
