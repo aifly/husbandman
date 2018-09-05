@@ -114,12 +114,13 @@
 		
 		methods:{
 			toastError(msg =  '用户名不能为空'){
-				this.errorMsg = msg;
+				this.$Message.error(msg);
+				/* this.errorMsg = msg;
  				this.showError = true;
  				setTimeout(()=>{
  					this.errorMsg = '';
  					this.showError = false;
- 				},2000)
+ 				},2000) */
 			},
 			register(){
 				if(!this.regMobile){
