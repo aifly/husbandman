@@ -51,6 +51,7 @@ var symbinUtil = {
 			data:opt,
 			error(){
 				option.fnError && option.fnError();
+				option.error && option.error();
 			}
 		}).done((dt)=>{
 			if(dt.getret === 1300){

@@ -100,22 +100,11 @@
 		components:{
 		},
         beforeCreate(){
-            //this.validateData = sysbinVerification.validate(this);
+            this.validateData = sysbinVerification.validate(this);
 
         },
         watch:{
-           /*  $route(to){
-                switch(to.name){
-                    case 'rolepanel':
-                        this.menus = this.defaultMenu;
-                      
-                    break;
-                    case 'console':
-                        this.menus = this.defaultLeftMenu;
-                    break;
-                }
-               
-            } */
+          
         },
 		mounted(){
            ///this.menus = this.defaultMenu.concat([]);

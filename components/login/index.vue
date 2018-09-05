@@ -258,11 +258,13 @@
 				switch (this.loginType) {
 					case '0':
 						if(!this.username){
-							this.$Message.error('用户名不能为空')
+							//this.$Message.error('用户名不能为空')
+							_this.toastError('用户名不能为空');
 							return;
 						}
 						if(!this.password){
-							this.$Message.error('密码不能为空')
+							//this.$Message.error('密码不能为空')
+							_this.toastError('密码不能为空');
 							return;
 						}
 						params.userpwd = _this.password,
@@ -272,22 +274,26 @@
 				
 					case '1':
 						if(!this.mobile){
-							this.$Message.error('用户名不能为空')
+							_this.toastError('用户名不能为空');
+							//this.$Message.error('用户名不能为空')
+							
 							return;
 						}
-						if(!this.verifycode){
-							this.$Message.error('验证码不能为空')
+						if(!this.vilatecode){
+							_this.toastError('验证码不能为空');
+						//	this.$Message.error('验证码不能为空')
 							return;
 						}
 						params.verifycode = _this.vilatecode
 						params.logintype = 1;//1，短信登陆，2：密码登陆
 						params.usermobile = _this.mobile;
-						params._this = _this;
+						//params._this = _this;
 						params.validate = _this.validate;
 						break;
 				}
 				var  p1= params;
 				this.showLoading = true;
+
 				symbinUtil.ajax({
 					url:window.config.baseUrl+'/farmer/login/',
 					isLogin:true,
@@ -296,7 +302,6 @@
 						_this.showLoading = false;
 					},
 					success(data){
-						console.log(data);
 						_this.showLoading = false;
 						if(data.getret === 0){
 							var param = data;
