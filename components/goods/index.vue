@@ -53,7 +53,7 @@
 						<div>数量 : {{goods.goodsnumber}}</div>
 					</div>
 					<div>
-						<Button type="error" icon='ios-trash' size='small'>删除</Button>
+						<Button @click='deleteRelation(goods,i)' type="error" size='small'>删除</Button>
 					</div>
 				</li>
 			</ul>
@@ -109,7 +109,7 @@
 	
 			return {
 				
-				modal1: true,
+				modal1: false,
 				currentIndex:'',
 				goodsList:[],
 				myGoodsList:[],
@@ -143,7 +143,21 @@
 		},
 	
 		methods: {
-
+			deleteRelation(goods,i){
+				var s = this;
+				symbinUtil.ajax({
+					url:window.config.baseUrl+'/farmer/deletegoods',
+					data:{
+						relationid:goods.relationid
+					},
+					success(data){
+						s.$Message[data.getret === 0 ? 'success':'error'](data.getmsg);
+						if(data.getret === 0){
+							s.myGoodsList.splice(i,1);
+						}
+					}
+				});
+			},
 			getCurrentGoods(goods){
 				this.currentGoodsId = goods.goodsid;
 				this.formItem = goods;
@@ -155,18 +169,14 @@
 			},
 			 
 			getBaseGoodsList() { //获取数据
-	
+				window.s = this;
 				var s = this;
 				symbinUtil.ajax({
 	
-					url: window.config.baseUrl + "/admin/getgoodslist",
-					url:'/components/goods/data.json',
-	
-					type: 'post',
-					type:'get',
+					url: window.config.baseUrl + "/farmer/getgoodslist",
+					//url:'/components/goods/data.json',
 					data: {
-						admin: s.validateData.adminusername,
-						admintoken: s.validateData.admintoken
+						
 					},
 					fn(data) {
 						console.log(data);
@@ -177,12 +187,6 @@
 			},
 			asyncOK(){
 				var s = this;
-				console.log({
-						goodsid:s.formItem.goodsid,
-						price:s.formItem.goodsprice,
-						goodsnumber:s.formItem.goodsnumber,
-						goodsfeature:s.formItem.goodsfeature
-					})
 				symbinUtil.ajax({
 					url:window.config.baseUrl+'/farmer/shelfgoods/',
 					data:{
@@ -194,6 +198,7 @@
 					success(data){
 						console.log(data);
 						s.$Message[data.getret === 0 ?'success':"error"](data.getmsg);
+						s.modal1 = false;
 					}
 				})
 			},
@@ -214,6 +219,16 @@
 						}
 					}
 				})
+
+				 symbinUtil.ajax({
+					 url:window.config.baseUrl+'/farmer/getlandlordgoodslist',
+					 data:{
+						 status:2
+					 },
+					 success(data){
+						 console.log(data,'checksandlordgoodslist');
+					 }
+				 })
 			}
 	
 	 
@@ -223,6 +238,8 @@
 		mounted() { //页面加载完成后显示
 			this.getBaseGoodsList();
 			this.getMyGoodsList();
+
+
 		},
 	
 	}
